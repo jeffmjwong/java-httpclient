@@ -10,11 +10,12 @@ public class Main {
         final HttpClient httpClient = HttpClient.newHttpClient();
 
         final HttpRequest request = HttpRequest
-                .newBuilder(URI.create("https://pluralsight.com"))
+                .newBuilder(URI.create("https://randomuser.me/api/"))
                 .build();
 
         try {
             final HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+            final String result = response.body();
             System.out.println(response.body());
             System.out.println(response.headers());
         } catch (Exception e) {
