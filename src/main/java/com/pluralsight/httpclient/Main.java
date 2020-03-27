@@ -22,6 +22,7 @@ public class Main {
 //            System.out.println(response.headers());
 
             final RandomUserDTO user1 = new Gson().fromJson(response.body(), RandomUserDTO.class);
+            System.out.println(user1.getResults());
             System.out.println(user1.getInfo());
         } catch (Exception e) {
             System.out.println(e.getMessage());
