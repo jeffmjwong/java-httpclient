@@ -4,7 +4,7 @@ import lombok.Getter;
 import java.util.ArrayList;
 
 @Getter
-public class RandomUserDTO {
+public class RandomUserDataDTO {
     private ArrayList<UserDTO> results;
     private InfoDTO info;
 }

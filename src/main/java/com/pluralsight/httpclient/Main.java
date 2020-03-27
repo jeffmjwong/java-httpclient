@@ -19,7 +19,7 @@ public class Main {
 
         try {
             final HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
-            final RandomUserDTO data = new Gson().fromJson(response.body(), RandomUserDTO.class);
+            final RandomUserDataDTO data = new Gson().fromJson(response.body(), RandomUserDataDTO.class);
 
             final List<String> fullNames = data
                     .getResults()
