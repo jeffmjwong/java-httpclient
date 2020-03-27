@@ -1,15 +1,10 @@
 package com.pluralsight.httpclient;
 
+import lombok.Getter;
 import java.util.ArrayList;
 
+@Getter
 public class RandomUserDTO {
     private ArrayList<UserDTO> results;
     private InfoDTO info;
-
-    public ArrayList<UserDTO> getResults() {
-        return results;
-    }
-    public InfoDTO getInfo() {
-        return info;
-    }
 }
