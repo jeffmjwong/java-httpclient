@@ -6,22 +6,28 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class Main {
     public static void main(String[] args) {
         final HttpClient httpClient = HttpClient.newHttpClient();
 
         final HttpRequest request = HttpRequest
-                .newBuilder(URI.create("https://randomuser.me/api/?results=2"))
+                .newBuilder(URI.create("https://randomuser.me/api/?results=5"))
                 .build();
 
         try {
             final HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
-            System.out.println(response.body());
+            final RandomUserDTO data = new Gson().fromJson(response.body(), RandomUserDTO.class);
 
-            final RandomUserDTO user1 = new Gson().fromJson(response.body(), RandomUserDTO.class);
-            System.out.println(user1.getResults());
-            System.out.println(user1.getInfo());
+            final List<String> fullNames = data
+                    .getResults()
+                    .stream()
+                    .map(UserDTO::fullName)
+                    .collect(Collectors.toList());
+
+            System.out.println(fullNames);
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
