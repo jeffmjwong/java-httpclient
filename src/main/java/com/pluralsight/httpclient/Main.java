@@ -1,5 +1,7 @@
 package com.pluralsight.httpclient;
 
+import com.google.gson.Gson;
+
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
@@ -15,9 +17,12 @@ public class Main {
 
         try {
             final HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
-            final String result = response.body();
-            System.out.println(response.body());
-            System.out.println(response.headers());
+//            final String result = response.body();
+//            System.out.println(response.body());
+//            System.out.println(response.headers());
+
+            final RandomUserDTO user1 = new Gson().fromJson(response.body(), RandomUserDTO.class);
+            System.out.println(user1.getInfo());
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
