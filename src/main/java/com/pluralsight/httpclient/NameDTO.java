@@ -1,5 +1,8 @@
 package com.pluralsight.httpclient;
 
+import lombok.Getter;
+
+@Getter
 public class NameDTO {
     private String title;
     private String first;
