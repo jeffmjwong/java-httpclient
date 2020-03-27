@@ -1,9 +1,9 @@
 package com.pluralsight.httpclient;
 
 public class RandomUserDTO {
-    private Info info;
+    private InfoDTO info;
 
-    public Info getInfo() {
+    public InfoDTO getInfo() {
         return info;
     }
 }

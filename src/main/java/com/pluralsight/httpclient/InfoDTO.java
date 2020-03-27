@@ -1,6 +1,6 @@
 package com.pluralsight.httpclient;
 
-public class Info {
+public class InfoDTO {
     private String seed;
     private int results;
     private int page;
