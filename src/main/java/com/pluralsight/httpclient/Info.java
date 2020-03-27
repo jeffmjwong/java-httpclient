@@ -18,4 +18,9 @@ public class Info {
     public String getVersion() {
         return version;
     }
+
+    @Override
+    public String toString() {
+        return "Info{seed='" + seed + "', results=" + results + ", page=" + page + ", version='" + version + "'}";
+    }
 }

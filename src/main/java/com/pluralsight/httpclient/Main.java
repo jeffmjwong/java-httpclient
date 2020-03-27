@@ -18,7 +18,7 @@ public class Main {
         try {
             final HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
 //            final String result = response.body();
-//            System.out.println(response.body());
+            System.out.println(response.body());
 //            System.out.println(response.headers());
 
             final RandomUserDTO user1 = new Gson().fromJson(response.body(), RandomUserDTO.class);
