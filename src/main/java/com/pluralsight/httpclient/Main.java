@@ -12,14 +12,12 @@ public class Main {
         final HttpClient httpClient = HttpClient.newHttpClient();
 
         final HttpRequest request = HttpRequest
-                .newBuilder(URI.create("https://randomuser.me/api/"))
+                .newBuilder(URI.create("https://randomuser.me/api/?results=2"))
                 .build();
 
         try {
             final HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
-//            final String result = response.body();
             System.out.println(response.body());
-//            System.out.println(response.headers());
 
             final RandomUserDTO user1 = new Gson().fromJson(response.body(), RandomUserDTO.class);
             System.out.println(user1.getResults());
