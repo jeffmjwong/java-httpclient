@@ -16,7 +16,17 @@ public class Main {
     }
 
     private static void useLinkValidatorSynchronous() {
-        System.out.println("Hello sync method!");
+        final HttpClient httpClient = HttpClient.newHttpClient();
+    }
+
+    private static String validateLink(String link) {
+        return null;
+    }
+
+    private static String responseToString(HttpResponse<Void> response) {
+        final int status = response.statusCode();
+        final boolean isSuccess = status >= 200 && status <= 299;
+        return String.format("%s -> %s (status: %s)", response.uri(), isSuccess, status);
     }
 
     private static void useRandomUserGenerator() {
