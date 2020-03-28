@@ -11,7 +11,12 @@ import java.util.stream.Collectors;
 
 public class Main {
     public static void main(String[] args) {
-        useRandomUserGenerator();
+//        useRandomUserGenerator();
+        useLinkValidatorSynchronous();
+    }
+
+    private static void useLinkValidatorSynchronous() {
+        System.out.println("Hello sync method!");
     }
 
     private static void useRandomUserGenerator() {
@@ -22,9 +27,7 @@ public class Main {
                 .build();
 
         try {
-            System.out.println("Before send");
             final HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
-            System.out.println("After send");
             final RandomUserDataDTO data = new Gson().fromJson(response.body(), RandomUserDataDTO.class);
 
             final List<String> fullNames = data
