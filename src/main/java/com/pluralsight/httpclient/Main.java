@@ -11,6 +11,10 @@ import java.util.stream.Collectors;
 
 public class Main {
     public static void main(String[] args) {
+        useRandomUserGenerator();
+    }
+
+    private static void useRandomUserGenerator() {
         final HttpClient httpClient = HttpClient.newHttpClient();
 
         final HttpRequest request = HttpRequest
