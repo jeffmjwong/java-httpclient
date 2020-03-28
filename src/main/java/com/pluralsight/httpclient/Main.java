@@ -45,10 +45,6 @@ public class Main {
     }
 
     private static String validateLink(String link) {
-        // read urls.txt line by line
-        // create http client and send request
-        // call responseToString and pass in the response
-
         return null;
     }
 
