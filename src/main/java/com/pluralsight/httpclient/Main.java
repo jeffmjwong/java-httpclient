@@ -11,6 +11,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class Main {
     public static void main(String[] args) {
@@ -19,33 +20,46 @@ public class Main {
     }
 
     private static void useLinkValidatorSynchronous() {
-        final HttpClient httpClient = HttpClient.newHttpClient();
-
-        final Path path = Paths.get("urls.txt");
-
         try {
-            final List<String> urls = Files.readAllLines(path);
-
-            urls.forEach(url -> {
-                final HttpRequest request = HttpRequest
-                        .newBuilder(URI.create(url))
-                        .build();
-
-                try {
-                    final HttpResponse<Void> response = httpClient.send(request, HttpResponse.BodyHandlers.discarding());
-                    System.out.println(responseToString(response));
-                } catch (Exception e) {
-                    System.out.println("Http request error: " + e.getMessage());
-                }
-            });
+            final List<String> strings = Files
+                    .lines(Path.of("urls.txt"))
+                    .map(Main::validateLink)
+                    .collect(Collectors.toList());
+            System.out.println(strings);
         } catch (Exception e) {
-            System.out.println("File reading error: " + e.getMessage());
+            System.out.println("File error: " + e.getMessage());
         }
+
+
+//        final Path path = Paths.get("urls.txt");
+//
+//        try {
+//            final List<String> urls = Files.readAllLines(path);
+//
+//            urls.forEach(url -> {
+//                final HttpRequest request = HttpRequest
+//                        .newBuilder(URI.create(url))
+//                        .build();
+//
+//
+//            });
+//        } catch (Exception e) {
+//            System.out.println("File reading error: " + e.getMessage());
+//        }
 
     }
 
     private static String validateLink(String link) {
-        return null;
+        final HttpClient httpClient = HttpClient.newHttpClient();
+        final HttpRequest request = HttpRequest.newBuilder(URI.create(link)).build();
+
+        try {
+            final HttpResponse<Void> response = httpClient.send(request, HttpResponse.BodyHandlers.discarding());
+            return responseToString(response);
+        } catch (Exception e) {
+            System.out.println("Http request error: " + e.getMessage());
+            return "Failed";
+        }
     }
 
     private static String responseToString(HttpResponse<Void> response) {
