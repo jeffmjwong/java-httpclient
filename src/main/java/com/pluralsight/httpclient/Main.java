@@ -6,6 +6,9 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -17,9 +20,35 @@ public class Main {
 
     private static void useLinkValidatorSynchronous() {
         final HttpClient httpClient = HttpClient.newHttpClient();
+
+        final Path path = Paths.get("urls.txt");
+
+        try {
+            final List<String> urls = Files.readAllLines(path);
+
+            urls.forEach(url -> {
+                final HttpRequest request = HttpRequest
+                        .newBuilder(URI.create(url))
+                        .build();
+
+                try {
+                    final HttpResponse<Void> response = httpClient.send(request, HttpResponse.BodyHandlers.discarding());
+                    System.out.println(responseToString(response));
+                } catch (Exception e) {
+                    System.out.println("Http request errors: " + e.getMessage());
+                }
+            });
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+
     }
 
     private static String validateLink(String link) {
+        // read urls.txt line by line
+        // create http client and send request
+        // call responseToString and pass in the response
+
         return null;
     }
 
