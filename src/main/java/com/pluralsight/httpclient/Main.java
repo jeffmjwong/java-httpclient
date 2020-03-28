@@ -21,11 +21,9 @@ public class Main {
 
     private static void useLinkValidatorSynchronous() {
         try {
-            final List<String> strings = Files
-                    .lines(Path.of("urls.txt"))
+            Files.lines(Path.of("urls.txt"))
                     .map(Main::validateLink)
-                    .collect(Collectors.toList());
-            System.out.println(strings);
+                    .forEach(System.out::println);
         } catch (Exception e) {
             System.out.println("File error: " + e.getMessage());
         }
