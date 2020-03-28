@@ -8,10 +8,8 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class Main {
     public static void main(String[] args) {
@@ -27,24 +25,6 @@ public class Main {
         } catch (Exception e) {
             System.out.println("File error: " + e.getMessage());
         }
-
-
-//        final Path path = Paths.get("urls.txt");
-//
-//        try {
-//            final List<String> urls = Files.readAllLines(path);
-//
-//            urls.forEach(url -> {
-//                final HttpRequest request = HttpRequest
-//                        .newBuilder(URI.create(url))
-//                        .build();
-//
-//
-//            });
-//        } catch (Exception e) {
-//            System.out.println("File reading error: " + e.getMessage());
-//        }
-
     }
 
     private static String validateLink(String link) {
