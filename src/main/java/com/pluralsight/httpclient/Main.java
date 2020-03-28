@@ -59,7 +59,7 @@ public class Main {
             return responseToString(response);
         } catch (Exception e) {
             System.out.println("Http request error: " + e.getMessage());
-            return "Failed";
+            return String.format("%s -> %s", link, false);
         }
     }
 
