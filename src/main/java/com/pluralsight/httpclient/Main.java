@@ -35,11 +35,11 @@ public class Main {
                     final HttpResponse<Void> response = httpClient.send(request, HttpResponse.BodyHandlers.discarding());
                     System.out.println(responseToString(response));
                 } catch (Exception e) {
-                    System.out.println("Http request errors: " + e.getMessage());
+                    System.out.println("Http request error: " + e.getMessage());
                 }
             });
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            System.out.println("File reading error: " + e.getMessage());
         }
 
     }
