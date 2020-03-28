@@ -49,7 +49,10 @@ public class Main {
 
     private static String validateLink(String link) {
         final HttpClient httpClient = HttpClient.newHttpClient();
-        final HttpRequest request = HttpRequest.newBuilder(URI.create(link)).build();
+        final HttpRequest request = HttpRequest
+                .newBuilder(URI.create(link))
+                .GET()
+                .build();
 
         try {
             final HttpResponse<Void> response = httpClient.send(request, HttpResponse.BodyHandlers.discarding());
