@@ -9,12 +9,14 @@ import java.net.http.HttpResponse;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
 public class Main {
     public static void main(String[] args) {
 //        useRandomUserGenerator();
-        useLinkValidatorSynchronous();
+        useRandomUserGeneratorAsync();
+//        useLinkValidatorSynchronous();
     }
 
     private static void useLinkValidatorSynchronous() {
@@ -49,6 +51,38 @@ public class Main {
         return String.format("%s -> %s (status: %s)", response.uri(), isSuccess, status);
     }
 
+    private static void useRandomUserGeneratorAsync() {
+        final HttpClient httpClient = HttpClient.newHttpClient();
+
+        final HttpRequest request = HttpRequest
+                .newBuilder(URI.create("https://randomuser.me/api/?results=5"))
+                .build();
+
+//        final CompletableFuture<HttpResponse<String>> responseFuture = httpClient.sendAsync(request, HttpResponse.BodyHandlers.ofString());
+//        responseFuture.thenAccept(response -> System.out.println(response.body()));
+
+        try {
+            System.out.println(1);
+            final CompletableFuture<HttpResponse<String>> responseFuture = httpClient.sendAsync(request, HttpResponse.BodyHandlers.ofString());
+            System.out.println(2);
+
+            responseFuture.thenAccept(response -> {
+                final RandomUserDataDTO data = new Gson().fromJson(response.body(), RandomUserDataDTO.class);
+
+                final List<String> fullNames = data
+                        .getResults()
+                        .stream()
+                        .map(UserDTO::fullName)
+                        .collect(Collectors.toList());
+
+                System.out.println(fullNames);
+            });
+            System.out.println(3);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
     private static void useRandomUserGenerator() {
         final HttpClient httpClient = HttpClient.newHttpClient();
 
@@ -57,7 +91,9 @@ public class Main {
                 .build();
 
         try {
+            System.out.println(1);
             final HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+            System.out.println(2);
             final RandomUserDataDTO data = new Gson().fromJson(response.body(), RandomUserDataDTO.class);
 
             final List<String> fullNames = data
@@ -67,6 +103,7 @@ public class Main {
                     .collect(Collectors.toList());
 
             System.out.println(fullNames);
+            System.out.println(3);
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
