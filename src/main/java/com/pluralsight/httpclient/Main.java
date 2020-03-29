@@ -17,7 +17,37 @@ public class Main {
 //        useRandomUserGenerator();
         useRandomUserGeneratorAsync();
 //        useLinkValidatorSynchronous();
+//        useLinkValidatorAsynchronous();
     }
+
+//    private static void useLinkValidatorAsynchronous() {
+//        try {
+//            final List<String> futures = Files.lines(Path.of("urls.txt"))
+//                    .map(Main::validateLinkAsync)
+//                    .collect(Collectors.toList());
+//
+//            futures.stream().map(CompletableFuture::join).forEach(System.out::println);
+//
+//        } catch (Exception e) {
+//            System.out.println("File error: " + e.getMessage());
+//        }
+//    }
+//
+//    private static String validateLinkAsync(String link) {
+//        final HttpClient httpClient = HttpClient.newHttpClient();
+//        final HttpRequest request = HttpRequest
+//                .newBuilder(URI.create(link))
+//                .GET()
+//                .build();
+//
+//        try {
+//            final HttpResponse<Void> response = httpClient.send(request, HttpResponse.BodyHandlers.discarding());
+//            return responseToString(response);
+//        } catch (Exception e) {
+//            System.out.println("Http request error: " + e.getMessage());
+//            return String.format("%s -> %s", link, false);
+//        }
+//    }
 
     private static void useLinkValidatorSynchronous() {
         try {
@@ -58,29 +88,32 @@ public class Main {
                 .newBuilder(URI.create("https://randomuser.me/api/?results=5"))
                 .build();
 
-//        final CompletableFuture<HttpResponse<String>> responseFuture = httpClient.sendAsync(request, HttpResponse.BodyHandlers.ofString());
-//        responseFuture.thenAccept(response -> System.out.println(response.body()));
+        final CompletableFuture<HttpResponse<String>> responseFuture = httpClient.sendAsync(request, HttpResponse.BodyHandlers.ofString());
+        System.out.println(1);
+        System.out.println(3);
+        responseFuture.thenRun(() -> System.out.println(2)).join();
 
-        try {
-            System.out.println(1);
-            final CompletableFuture<HttpResponse<String>> responseFuture = httpClient.sendAsync(request, HttpResponse.BodyHandlers.ofString());
-            System.out.println(2);
 
-            responseFuture.thenAccept(response -> {
-                final RandomUserDataDTO data = new Gson().fromJson(response.body(), RandomUserDataDTO.class);
-
-                final List<String> fullNames = data
-                        .getResults()
-                        .stream()
-                        .map(UserDTO::fullName)
-                        .collect(Collectors.toList());
-
-                System.out.println(fullNames);
-            });
-            System.out.println(3);
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
+//        try {
+//            System.out.println(1);
+//            final CompletableFuture<HttpResponse<String>> responseFuture = httpClient.sendAsync(request, HttpResponse.BodyHandlers.ofString());
+//            System.out.println(2);
+//
+//            responseFuture.thenAccept(response -> {
+//                final RandomUserDataDTO data = new Gson().fromJson(response.body(), RandomUserDataDTO.class);
+//
+//                final List<String> fullNames = data
+//                        .getResults()
+//                        .stream()
+//                        .map(UserDTO::fullName)
+//                        .collect(Collectors.toList());
+//
+//                System.out.println(fullNames);
+//            });
+//            System.out.println(3);
+//        } catch (Exception e) {
+//            System.out.println(e.getMessage());
+//        }
     }
 
     private static void useRandomUserGenerator() {
@@ -91,9 +124,7 @@ public class Main {
                 .build();
 
         try {
-            System.out.println(1);
             final HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
-            System.out.println(2);
             final RandomUserDataDTO data = new Gson().fromJson(response.body(), RandomUserDataDTO.class);
 
             final List<String> fullNames = data
@@ -103,7 +134,6 @@ public class Main {
                     .collect(Collectors.toList());
 
             System.out.println(fullNames);
-            System.out.println(3);
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
