@@ -8,51 +8,50 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 public class Main {
     public static void main(String[] args) {
 //        useRandomUserGenerator();
 //        useLinkValidatorSynchronous();
-//        useLinkValidatorAsynchronous();
+        useLinkValidatorAsynchronous();
     }
 
-//    private static void useLinkValidatorAsynchronous() {
-//        try {
-//            final List<String> futures = Files.lines(Path.of("urls.txt"))
-//                    .map(Main::validateLinkAsync)
-//                    .collect(Collectors.toList());
-//
+    private static void useLinkValidatorAsynchronous() {
+        try {
+            final List<CompletableFuture<String>> futures = Files.lines(Path.of("urls.txt"))
+                    .map(Main::validateLinkAsync)
+                    .collect(Collectors.toList());
+
 //            futures.stream().map(CompletableFuture::join).forEach(System.out::println);
-//
-//        } catch (Exception e) {
-//            System.out.println("File error: " + e.getMessage());
-//        }
-//    }
-//
-//    private static String validateLinkAsync(String link) {
-//        final HttpClient httpClient = HttpClient.newHttpClient();
-//        final HttpRequest request = HttpRequest
-//                .newBuilder(URI.create(link))
-//                .GET()
-//                .build();
-//
-//        try {
-//            final HttpResponse<Void> response = httpClient.send(request, HttpResponse.BodyHandlers.discarding());
-//            return responseToString(response);
-//        } catch (Exception e) {
-//            System.out.println("Http request error: " + e.getMessage());
-//            return String.format("%s -> %s", link, false);
-//        }
-//    }
+
+            futures.forEach(f -> {
+                System.out.println(f.join());
+            });
+
+        } catch (Exception e) {
+            System.out.println("File error: " + e.getMessage());
+        }
+    }
+
+    private static CompletableFuture<String> validateLinkAsync(String link) {
+        final HttpClient httpClient = HttpClient.newHttpClient();
+        final HttpRequest request = HttpRequest
+                .newBuilder(URI.create(link))
+                .GET()
+                .build();
+
+        try {
+            return httpClient
+                    .sendAsync(request, HttpResponse.BodyHandlers.discarding())
+                    .thenApply(Main::responseToString);
+        } catch (Exception e) {
+            System.out.println("Http request error: " + e.getMessage());
+            return new CompletableFuture<String>();
+        }
+    }
 
     private static void useLinkValidatorSynchronous() {
         try {
