@@ -23,53 +23,6 @@ public class Main {
 //        useRandomUserGenerator();
 //        useLinkValidatorSynchronous();
 //        useLinkValidatorAsynchronous();
-
-        final HttpClient httpClient = HttpClient.newHttpClient();
-        final HttpRequest request1 = HttpRequest
-                .newBuilder(URI.create("https://httpstat.us/200?sleep=15000"))
-                .GET()
-                .build();
-        final HttpRequest request2 = HttpRequest
-                .newBuilder(URI.create("https://httpstat.us/200?sleep=3000"))
-                .GET()
-                .build();
-        final HttpRequest request3 = HttpRequest
-                .newBuilder(URI.create("https://httpstat.us/200"))
-                .GET()
-                .build();
-
-        try {
-            final CompletableFuture<Integer> cf1 = httpClient.sendAsync(request3, HttpResponse.BodyHandlers.ofString()).thenApply(HttpResponse::statusCode);
-            System.out.println("a");
-            System.out.println("b");
-            System.out.println("c");
-            final int i1 = cf1.get();
-            System.out.println("d" + " is a " + i1);
-            System.out.println("e");
-
-            TimeUnit.SECONDS.sleep(5);
-
-            System.out.println("f");
-            System.out.println("g");
-            System.out.println("h");
-
-//            final HttpResponse<Void> res1 = httpClient.send(request1, HttpResponse.BodyHandlers.discarding());
-//            System.out.println("15s done");
-//
-//            final HttpResponse<Void> res2 = httpClient.send(request1, HttpResponse.BodyHandlers.discarding());
-//            System.out.println("3s done");
-
-//            final CompletableFuture<HttpResponse<Void>> future1 = httpClient.sendAsync(request1, HttpResponse.BodyHandlers.discarding());
-//            final CompletableFuture<Void> statusCode1 = future1.thenAccept(f -> System.out.println(f.statusCode() + " - 15s done"));
-//
-//            final CompletableFuture<HttpResponse<Void>> future2 = httpClient.sendAsync(request2, HttpResponse.BodyHandlers.discarding());
-//            final CompletableFuture<Void> statusCode2 = future2.thenAccept(f -> System.out.println(f.statusCode() + " - 3s done"));
-
-//            final List<CompletableFuture<Void>> list1 = new ArrayList<>(Arrays.asList(statusCode1, statusCode2));
-//            list1.forEach(CompletableFuture::join);
-        } catch (Exception e) {
-            System.out.println("Http request error: " + e.getMessage());
-        }
     }
 
 //    private static void useLinkValidatorAsynchronous() {
