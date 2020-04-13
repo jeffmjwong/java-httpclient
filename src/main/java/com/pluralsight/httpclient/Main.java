@@ -40,14 +40,10 @@ public class Main {
                 .GET()
                 .build();
 
-        try {
-             return httpClient
-                    .sendAsync(request, HttpResponse.BodyHandlers.discarding())
-                    .thenApply(Main::responseToString);
-        } catch (Exception e) {
-            System.out.println("Http request error: " + e.getMessage());
-            return new CompletableFuture<String>();
-        }
+        return httpClient
+                .sendAsync(request, HttpResponse.BodyHandlers.discarding())
+                .thenApply(Main::responseToString)
+                .exceptionally(e -> String.format("%s -> %s (something went wrong - %s)", link, false, e.getMessage()));
     }
 
     private static void useLinkValidatorSynchronous() {
