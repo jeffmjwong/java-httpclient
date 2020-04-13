@@ -10,6 +10,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 public class Main {
@@ -21,22 +22,20 @@ public class Main {
 
     private static void useLinkValidatorAsynchronous() {
         try {
-            final List<CompletableFuture<String>> futures = Files.lines(Path.of("urls.txt"))
-                    .map(Main::validateLinkAsync)
-                    .collect(Collectors.toList());
-
+            Files.lines(Path.of("urls.txt")).forEach(Main::validateLinkAsync);
+            TimeUnit.SECONDS.sleep(10);
+//            final List<CompletableFuture<String>> futures = Files.lines(Path.of("urls.txt"))
+//                    .map(Main::validateLinkAsync)
+//                    .collect(Collectors.toList());
+//
 //            futures.stream().map(CompletableFuture::join).forEach(System.out::println);
-
-            futures.forEach(f -> {
-                System.out.println(f.join());
-            });
 
         } catch (Exception e) {
             System.out.println("File error: " + e.getMessage());
         }
     }
 
-    private static CompletableFuture<String> validateLinkAsync(String link) {
+    private static void validateLinkAsync(String link) {
         final HttpClient httpClient = HttpClient.newHttpClient();
         final HttpRequest request = HttpRequest
                 .newBuilder(URI.create(link))
@@ -44,12 +43,12 @@ public class Main {
                 .build();
 
         try {
-            return httpClient
+             httpClient
                     .sendAsync(request, HttpResponse.BodyHandlers.discarding())
-                    .thenApply(Main::responseToString);
+                    .thenApply(Main::responseToString)
+                    .thenAccept(System.out::println);
         } catch (Exception e) {
             System.out.println("Http request error: " + e.getMessage());
-            return new CompletableFuture<String>();
         }
     }
 
