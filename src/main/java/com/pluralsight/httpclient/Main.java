@@ -37,6 +37,7 @@ public class Main {
         final HttpClient httpClient = HttpClient
                 .newBuilder()
                 .connectTimeout(Duration.ofSeconds(3))
+                .followRedirects(HttpClient.Redirect.NORMAL)
                 .build();
         final HttpRequest request = HttpRequest
                 .newBuilder(URI.create(link))

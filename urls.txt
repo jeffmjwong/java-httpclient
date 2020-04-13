@@ -3,5 +3,5 @@ https://httpstat.us/200?sleep=1000
 https://openjdk.java.netss
 https://httpstat.us/404
 https://httpstat.us/500
-https://www.pluralsight.com
+https://pluralsight.com
 https://httpstat.us/302
