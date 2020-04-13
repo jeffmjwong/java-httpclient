@@ -33,7 +33,7 @@ public class Main {
     }
 
     private static CompletableFuture<String> validateLinkAsync(String link) {
-        final HttpClient httpClient = HttpClient.newHttpClient();
+        final HttpClient httpClient = HttpClient.newBuilder().build();
         final HttpRequest request = HttpRequest
                 .newBuilder(URI.create(link))
                 .GET()
