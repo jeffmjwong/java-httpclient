@@ -8,6 +8,7 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.time.Duration;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
@@ -33,7 +34,10 @@ public class Main {
     }
 
     private static CompletableFuture<String> validateLinkAsync(String link) {
-        final HttpClient httpClient = HttpClient.newBuilder().build();
+        final HttpClient httpClient = HttpClient
+                .newBuilder()
+                .connectTimeout(Duration.ofSeconds(3))
+                .build();
         final HttpRequest request = HttpRequest
                 .newBuilder(URI.create(link))
                 .GET()
