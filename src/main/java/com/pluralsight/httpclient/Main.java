@@ -36,6 +36,7 @@ public class Main {
         final HttpClient httpClient = HttpClient.newHttpClient();
         final HttpRequest request = HttpRequest
                 .newBuilder(URI.create(link))
+                .version(HttpClient.Version.HTTP_1_1)
                 .GET()
                 .build();
 
