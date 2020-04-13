@@ -42,6 +42,7 @@ public class Main {
         final HttpRequest request = HttpRequest
                 .newBuilder(URI.create(link))
                 .GET()
+                .timeout(Duration.ofSeconds(3))
                 .build();
 
         return httpClient
