@@ -2,6 +2,8 @@ package com.pluralsight.httpclient;
 
 import com.google.gson.Gson;
 
+import java.net.CookieManager;
+import java.net.CookiePolicy;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
@@ -38,6 +40,7 @@ public class Main {
                 .newBuilder()
                 .connectTimeout(Duration.ofSeconds(3))
                 .followRedirects(HttpClient.Redirect.NORMAL)
+                .cookieHandler(new CookieManager(null, CookiePolicy.ACCEPT_ALL))
                 .build();
         final HttpRequest request = HttpRequest
                 .newBuilder(URI.create(link))
