@@ -42,7 +42,7 @@ public class Main {
         final HttpRequest request = HttpRequest
                 .newBuilder(URI.create(link))
                 .GET()
-                .header("Accept", "text/html")
+                .headers("Accept", "text/html", "User-Agent", "Java")
                 .timeout(Duration.ofSeconds(3))
                 .build();
 
