@@ -48,6 +48,8 @@ public class WebSocketMain {
 
         @Override
         public CompletionStage<?> onText(WebSocket webSocket, CharSequence data, boolean last) {
+            System.out.println("onText " + data);
+            receiveLatch.countDown();
             return null;
         }
     }
