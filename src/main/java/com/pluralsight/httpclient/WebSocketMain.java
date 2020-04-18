@@ -5,6 +5,7 @@ import java.net.http.HttpClient;
 import java.net.http.WebSocket;
 import java.time.Duration;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.CompletionStage;
 import java.util.concurrent.CountDownLatch;
 
 public class WebSocketMain {
@@ -43,6 +44,11 @@ public class WebSocketMain {
         @Override
         public void onOpen(WebSocket webSocket) {
             System.out.println("Websocket opened");
+        }
+
+        @Override
+        public CompletionStage<?> onText(WebSocket webSocket, CharSequence data, boolean last) {
+            return null;
         }
     }
 }
